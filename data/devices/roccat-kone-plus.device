@@ -1,0 +1,4 @@
+[Device]
+Name=Roccat Kone Plus
+DeviceMatch=usb:1e7d:2d51
+Driver=roccat-kone-emp
