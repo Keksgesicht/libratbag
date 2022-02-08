@@ -86,7 +86,7 @@
 #define ROCCAT_LED_BREATHING        0x03
 #define ROCCAT_LED_PULSING          0x04
 
-unsigned int report_rates[] = { 125, 250, 500, 1000 };
+static unsigned int report_rates[] = { 125, 250, 500, 1000 };
 
 struct color {
 	uint8_t r;
@@ -94,7 +94,7 @@ struct color {
 	uint8_t b;
 } __attribute__((packed));
 
-struct color predefined_led_colors[] = { 
+static struct color predefined_led_colors[] = {
 	{ 179, 0, 0 }, { 255, 0, 0 }, { 255, 71, 0}, { 255, 106, 0 },
 	{ 255, 157, 71 }, { 248, 232, 0 }, { 246, 255, 78 }, { 201, 255, 78 },
 	{ 185, 255, 78 }, { 132, 255, 78 }, { 0, 255, 0 }, { 0, 207, 55 },
