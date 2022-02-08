@@ -597,6 +597,7 @@ extern struct ratbag_driver logitech_g300_driver;
 extern struct ratbag_driver logitech_g600_driver;
 extern struct ratbag_driver roccat_driver;
 extern struct ratbag_driver roccat_kone_pure_driver;
+extern struct ratbag_driver roccat_kone_plus_driver;
 extern struct ratbag_driver roccat_emp_driver;
 extern struct ratbag_driver gskill_driver;
 extern struct ratbag_driver steelseries_driver;

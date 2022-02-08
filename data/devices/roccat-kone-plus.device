@@ -1,4 +1,4 @@
 [Device]
-Name=Roccat Kone Plus
+Name=Roccat Kone [+]
 DeviceMatch=usb:1e7d:2d51
-Driver=roccat-kone-emp
+Driver=roccat-kone-plus
