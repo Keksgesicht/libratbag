@@ -64,7 +64,7 @@
 #define ROCCAT_REPORT_ID_KEY_MAPPING        7
 #define ROCCAT_REPORT_ID_MACRO              8
 
-#define ROCCAT_MAGIC_NUMBER_SETTINGS        0x29
+#define ROCCAT_MAGIC_NUMBER_SETTINGS        0x2b
 #define ROCCAT_MAGIC_NUMBER_KEY_MAPPING     0x47
 
 #define ROCCAT_BANK_ID_1    1
@@ -113,15 +113,16 @@ struct led_data {
 
 struct roccat_settings_report {
 	uint8_t reportID;               // 0x06
-	uint8_t magic_num;              // 0x29
+	uint8_t magic_num;              // 0x2b
 	uint8_t profile;
 	uint8_t x_y_linked;             // Always 0. Not on EMP ?
 	uint8_t x_sensitivity;          // From -5 (0x01) to 5 (0x0b)
 	uint8_t y_sensitivity;          // From -5 (0x01) to 5 (0x0b)
 	uint8_t dpi_mask;               // Bitfield to know which DPI setting is enabled
 	uint8_t xres[ROCCAT_NUM_DPI];   // DPI on X axis (from 0x00 to 0x77)
+	uint8_t current_dpi;			// One index, since X and Y DPIs are the same
 	uint8_t yres[ROCCAT_NUM_DPI];   // DPI on Y axis (always same values than xres)
-	uint8_t current_dpi;            // One index, since X and Y DPIs are the same
+	uint8_t unknown1;
 	uint8_t report_rate;            // From 0x00 to 0x03
 	uint8_t led_status;             // Two bitfields of 4 bits. First four bits tells if the LED colors is predefined. Latest four bits tells if the LED is on of off
 	uint8_t lighting_flow;          // 0x01 for color cycle effect. 0x00 to disable it
@@ -502,8 +503,8 @@ roccat_write_profile(struct ratbag_profile *profile)
 
 	report->dpi_mask = 0;
 	ratbag_profile_for_each_resolution(profile, resolution) {
-		report->xres[resolution->index] = (resolution->dpi_x - 100) / 100;
-		report->yres[resolution->index] = (resolution->dpi_y - 100) / 100;
+		report->xres[resolution->index] = (resolution->dpi_x) / 100;
+		report->yres[resolution->index] = (resolution->dpi_y) / 100;
 
 		if(resolution->is_active) {
 			report->current_dpi = resolution->index;
@@ -825,8 +826,8 @@ roccat_read_dpi(struct roccat_settings_report* settings, struct ratbag_profile* 
 	ratbag_profile_set_report_rate(profile, report_rate);
 
 	ratbag_profile_for_each_resolution(profile, resolution) {
-		dpi_x = settings->xres[resolution->index] * 100 + 100;
-		dpi_y = settings->yres[resolution->index] * 100 + 100;
+		dpi_x = settings->xres[resolution->index] * 100;
+		dpi_y = settings->yres[resolution->index] * 100;
 		resolution->is_active = (resolution->index == settings->current_dpi);
 		if (!(settings->dpi_mask & (1 << resolution->index))) {
 			/* this resolution is disabled, overwrite it */
