@@ -124,6 +124,7 @@ struct roccat_settings_report {
 	uint8_t yres[ROCCAT_NUM_DPI];   // DPI on Y axis (always same values than xres)
 	uint8_t unknown1;
 	uint8_t report_rate;            // From 0x00 to 0x03
+	uint8_t unknown2;
 	uint8_t led_status;             // Two bitfields of 4 bits. First four bits tells if the LED colors is predefined. Latest four bits tells if the LED is on of off
 	uint8_t lighting_flow;          // 0x01 for color cycle effect. 0x00 to disable it
 	uint8_t lighting_effect;        // From 0x01 to 0x04 : fixed, blinking, breathing, beating
