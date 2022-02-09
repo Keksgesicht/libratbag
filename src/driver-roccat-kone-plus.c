@@ -80,7 +80,7 @@
 #define ROCCAT_MAX_MACRO_LENGTH     480
 
 #define ROCCAT_MIN_DPI  100
-#define ROCCAT_MAX_DPI  12000
+#define ROCCAT_MAX_DPI  6000
 
 #define ROCCAT_USER_DEFINED_COLOR   0x1e // The mouse knows some predefined colors. User can also set RGB values
 #define ROCCAT_LED_BLINKING         0x02
@@ -895,6 +895,20 @@ roccat_read_profile(struct ratbag_profile *profile)
 	roccat_set_config_profile(device, profile->index, ROCCAT_CONFIG_SETTINGS);
 	rc = ratbag_hidraw_get_feature_report(device, ROCCAT_REPORT_ID_SETTINGS,
 						  (uint8_t*)settings, ROCCAT_REPORT_SIZE_SETTINGS);
+
+	uint8_t* settings_hex_array = (uint8_t*)settings;
+
+	log_debug(device->ratbag, "profile %d hexdump", profile->index);
+	for (int j = 0; j < rc; ++j) {
+		printf(" %02x", settings_hex_array[j]);
+	}
+	printf("\n");
+
+	log_debug(device->ratbag, "profile %d decdump", profile->index);
+	for (int j = 0; j < rc; ++j) {
+		printf(" %d", settings_hex_array[j]);
+	}
+	printf("\n");
 
 	if (rc < (int)ROCCAT_REPORT_SIZE_SETTINGS) {
 		return;
